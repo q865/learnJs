@@ -40,7 +40,7 @@ else if (location.host == "yandex.ru"){
     }
     if (flag){
         if (document.getElementsByClassName('link_theme_none')[0].innerText>9)
-            location.href = "yandex.ru";
+            location.href = "https://yandex.ru/";
         else
             setTimeout(()=>{document.getElementsByClassName('pager__item pager__item_kind_next')[0].click();},getRandom(1000,5000));
     }
@@ -51,7 +51,7 @@ else {
         let index = getRandom(0,links.length);
         console.log(links[index]);
         links[index].click();
-        if (getRandom(0,101)<=30) location.href = "yandex.ru";
+        if (getRandom(0,101)<=30) location.href = "https://yandex.ru/";
     },getRandom(3000, 8000));
 }
 
