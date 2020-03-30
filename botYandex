@@ -1,0 +1,60 @@
+// ==UserScript==
+// @name         New Userscript
+// @namespace    http://tampermonkey.net/
+// @version      0.1
+// @description  try to take over the world!
+// @author       You
+// @match        https://yandex.ru/*
+// @match        https://xn----7sbab5aqcbiddtdj1e1g.xn--p1ai/*
+// @grant        none
+// ==/UserScript==
+
+
+
+
+let yandexInput = document.getElementById('text');
+let searchWords  = ["Гобой","Флейта","Саксофон","Валторна","Кларнет","Фагот"];
+let searchWord  = searchWords[getRandom(0,searchWords.length)];
+let i = 0;
+
+if (document.getElementsByClassName('home-logo__custom')[0] != undefined){
+    let timerId = setInterval(()=>{
+        yandexInput.value += searchWord[i];
+        i++;
+        if (i==searchWord.length) {
+            clearInterval(timerId);
+            document.getElementsByClassName('mini-suggest__button')[0].click();
+        }
+    },getRandom(50, 1000));
+}
+else if (location.host == "yandex.ru"){
+    let flag = true;
+    let links = document.links;
+    for (let i=0; i<links.length; i++){
+        if (links[i].href.indexOf('xn----7sbab5aqcbiddtdj1e1g.xn--p1ai') != -1){
+            flag = false;
+            links[i].target='';
+            links[i].click();
+            break;
+        }
+    }
+    if (flag){
+        if (document.getElementsByClassName('link_theme_none link_target_serp pager__item pager__item_kind_page i-bem link_js_inited')[0].innerText>9)
+            location.href = "yandex.ru";
+        else
+            setTimeout(()=>{document.getElementsByClassName('pager__item pager__item_kind_next')[0].click();},getRandom(1000,5000));
+    }
+}
+else {
+    let links = document.links;
+    setInterval(()=>{
+        let index = getRandom(0,links.length);
+        console.log(links[index]);
+        links[index].click();
+        if (getRandom(0,101)<=30) location.href = "yandex.ru";
+    },getRandom(3000, 8000));
+}
+
+function getRandom(min,max){
+    return Math.floor(Math.random()*(max-min)+min);
+}
